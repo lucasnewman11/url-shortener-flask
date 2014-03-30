@@ -21,12 +21,12 @@ def form_handler():
 
 @app.route('/redirect/<key>')
 def redirect(key):
-    f = open(path + key, 'r')
-    if f:
+    try:
+        f = open(path + key, 'r')
         url = f.read()
         return Markup('%s redirects to %s') % (key, url)
         f.close()
-    else:
+    except:
         return Markup('%s not found') % key
 
 if __name__ == '__main__':
