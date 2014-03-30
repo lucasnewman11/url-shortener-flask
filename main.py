@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, Markup
+import hashlib
 
 app = Flask(__name__)
 
@@ -8,8 +9,7 @@ def url_shortener():
 
 @app.route('/form_handler/', methods = ['GET', 'POST'])
 def form_handler():
-
-    return Markup('%s') % request.form['url'] # request.args.get('url')
+    return Markup('%s') % hashlib.sha1(request.form['url'].encode('ascii')).hexdigest()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
