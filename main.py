@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Markup
+from flask import Flask, render_template, request, Markup, redirect
 from pdb import set_trace
 import hashlib
 
@@ -20,12 +20,12 @@ def form_handler():
     return Markup('To link to %s, use %s/redirect/%s') % (url, name, filename)
 
 @app.route('/redirect/<key>')
-def redirect(key):
+def lookup(key):
     try:
         f = open(path + key, 'r')
         url = f.read()
-        return Markup('%s redirects to %s') % (key, url)
         f.close()
+        return redirect('http://' + url)
     except:
         return Markup('%s not found') % key
 
